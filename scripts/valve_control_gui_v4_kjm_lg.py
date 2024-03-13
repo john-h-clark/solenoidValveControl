@@ -56,7 +56,7 @@ d = u12.U12()
 mutex = Lock()
 
 # Create variables for AO0 and AO1 Voltages
-AO0_volts = 3.33  # initialize with filter valve open
+AO0_volts = 0.00  # initialize with filter valve closed
 AO1_volts = 0.0
 
 mutex.acquire()
@@ -75,10 +75,10 @@ root.geometry("600x400")
 # Define function for button 1 command (sets valves to filter)
 def btn1_click():
     canvas.itemconfig(box1, fill='gold')  # change box color to gold
-    canvas.itemconfig(boxlabel, text='Filter')  # change text in box
+    canvas.itemconfig(boxlabel, text='Open CO2')  # change text in box
 
     current_time = datetime.datetime.now().strftime("%H:%M:%S")
-    log_entry = ('\n' + current_time + ' Filter Valve Opened\r')  # Valve1
+    log_entry = ('\n' + current_time + ' CO2 Open\r')  # Valve1
     txt.configure(state='normal')  # enable editing of text log
     txt.insert(tk.END, log_entry)  # write to text log
     txt.configure(state='disabled')  # disable editing of text log
@@ -87,7 +87,7 @@ def btn1_click():
     # declare global variable so value carries over with button callback
     global AO1_volts
     # Change AO0 Voltage
-    AO0_volts = 3.33
+    AO0_volts = 5.00
     mutex.acquire()
     # set output voltage on LabJack - open filter valve
     d.eAnalogOut(AO0_volts, AO1_volts)
@@ -107,10 +107,10 @@ def btn1_click():
 # Define function for button 2 command (sets valves to sample)
 def btn2_click():
     canvas.itemconfig(box1, fill='cyan')  # change box color to blue
-    canvas.itemconfig(boxlabel, text="Sample")  # change text in box
+    canvas.itemconfig(boxlabel, text="CO2 Closed")  # change text in box
     # convert time to string
     current_time = datetime.datetime.now().strftime("%H:%M:%S")
-    log_entry = ('\n' + current_time + ' Sample Valve Opened\r')  # Valve2
+    log_entry = ('\n' + current_time + ' CO2 Closed\r')  # Valve2
     txt.configure(state='normal')  # enable editing of text log
     txt.insert(tk.END, log_entry)  # write to text log
     txt.configure(state='disabled')  # disable editing of text log
@@ -119,7 +119,8 @@ def btn2_click():
     # declare global variable so value carries over with button callback
     global AO1_volts
     # Change AO1 Voltage
-    AO1_volts = 3.33
+    AO1_volts = 0.00
+
     mutex.acquire()
     # set output voltage on LabJack - open sample valve
     d.eAnalogOut(AO0_volts, AO1_volts)
@@ -167,8 +168,8 @@ lab2 = canvas2.create_text((72, 37), text='V2')
 lab3 = canvas2.create_text((50, 10), text='Status')
 
 # Add buttons
-btn1 = tk.Button(root, text='Filter', command=btn1_click)
-btn2 = tk.Button(root, text='Sample', command=btn2_click)
+btn1 = tk.Button(root, text='Open CO2', command=btn1_click)
+btn2 = tk.Button(root, text='Close CO2', command=btn2_click)
 
 
 # Create text box for output log

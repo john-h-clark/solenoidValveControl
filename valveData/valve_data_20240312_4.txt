@@ -1,0 +1,5 @@
+Valve Position and Trigger Data
+Assured Automation V4 Electric Ball Valves
+DateTime, Valve 1 Output, Valve 2 Output, Valve 1 Position,Valve 2 Position, Vaisala_CH1V, Vaisala_CH2V, Temp, RH n03/12/2024, 14:45:31, 0.0, 0.0, -999, -999, 
+03/12/2024, 14:45:32, 0.0, 0.0, -999, -999, 
+03/12/2024, 14:45:33, 0.0, 0.0, -999, -999, 
