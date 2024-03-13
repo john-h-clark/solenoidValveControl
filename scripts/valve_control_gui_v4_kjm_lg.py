@@ -105,15 +105,6 @@ def btn1_click():
         mutex.release()
         # time.sleep
         time.sleep(.1)  # buffer to stop buttons from being pressed too quickly
-    # reset voltages
-    AO0_volts = 0.00
-    AO1_volts - 0.00
-    # convert time to string
-    current_time = datetime.datetime.now().strftime("%H:%M:%S")
-    log_entry = ('\n' + current_time + ' CO2 Closed\r')  # Valve2
-    txt.configure(state='normal')  # enable editing of text log
-    txt.insert(tk.END, log_entry)  # write to text log
-    txt.configure(state='disabled')  # disable editing of text log
 
 
 # Define function for button 2 command (sets valves to sample)

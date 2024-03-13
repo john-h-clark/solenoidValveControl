@@ -4,7 +4,7 @@ save_data_on_exit = True
 save_history = True
 save_non_project_files = False
 project_type = 'empty-project-type'
-recent_files = ['scripts\\valve_control_gui_v4_kjm_lg.py', '.gitignore']
+recent_files = ['scripts\\valve_control_gui_v4_kjm_lg.py', 'README.md', '.gitignore', 'scripts\\original_valve_control_gui_v4_kjm_lg.py', 'scripts\\timedValveControl.py']
 
 [main]
 version = 0.2.0
