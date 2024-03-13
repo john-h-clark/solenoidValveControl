@@ -34,7 +34,7 @@
 # Import Packages
 import tkinter as tk
 import datetime
-from time import sleep
+import time
 import os
 from os.path import exists
 from threading import Thread, Lock
@@ -56,7 +56,7 @@ d = u12.U12()
 mutex = Lock()
 
 # Create variables for AO0 and AO1 Voltages
-AO0_volts = 0.00  # initialize with filter valve closed
+AO0_volts = 0.00  # initialize with CO2 valve closed
 AO1_volts = 0.0
 
 mutex.acquire()
@@ -86,22 +86,34 @@ def btn1_click():
     global AO0_volts
     # declare global variable so value carries over with button callback
     global AO1_volts
-    # Change AO0 Voltage
-    AO0_volts = 5.00
-    mutex.acquire()
-    # set output voltage on LabJack - open filter valve
-    d.eAnalogOut(AO0_volts, AO1_volts)
-    mutex.release()
+    # set the variable which determined when the valve will be closed
+    tEnd = time.time() + 20
+    while time.time() < tEnd:
+        # Change AO0 Voltage
+        AO0_volts = 5.00
+        mutex.acquire()
+        # set output voltage on LabJack - open filter valve
+        d.eAnalogOut(AO0_volts, AO1_volts)
+        mutex.release()
 
-    # Change AO1 Voltage
-    AO1_volts = 0.0
-    sleep(1)  # waiting period when both valves are open
-    mutex.acquire()
-    # set output voltage on LabJack - close sample valve
-    d.eAnalogOut(AO0_volts, AO1_volts)
-    mutex.release()
-    # Sleep
-    sleep(.1)  # buffer to stop buttons from being pressed too quickly
+        # Change AO1 Voltage
+        AO1_volts = 0.0
+        time.sleep(1)  # waiting period when both valves are open
+        mutex.acquire()
+        # set output voltage on LabJack - close sample valve
+        d.eAnalogOut(AO0_volts, AO1_volts)
+        mutex.release()
+        # time.sleep
+        time.sleep(.1)  # buffer to stop buttons from being pressed too quickly
+    # reset voltages
+    AO0_volts = 0.00
+    AO1_volts - 0.00
+    # convert time to string
+    current_time = datetime.datetime.now().strftime("%H:%M:%S")
+    log_entry = ('\n' + current_time + ' CO2 Closed\r')  # Valve2
+    txt.configure(state='normal')  # enable editing of text log
+    txt.insert(tk.END, log_entry)  # write to text log
+    txt.configure(state='disabled')  # disable editing of text log
 
 
 # Define function for button 2 command (sets valves to sample)
@@ -125,7 +137,7 @@ def btn2_click():
     # set output voltage on LabJack - open sample valve
     d.eAnalogOut(AO0_volts, AO1_volts)
     mutex.release()
-    sleep(1)  # waiting period when both valves are open
+    time.sleep(1)  # waiting period when both valves are open
 
     # Change AO0 Voltage
     AO0_volts = 0.0
@@ -133,7 +145,7 @@ def btn2_click():
     # set output voltage on LabJack - close filter valve
     d.eAnalogOut(AO0_volts, AO1_volts)
     mutex.release()
-    sleep(.1)  # buffer to stop buttons from being pressed too quickly
+    time.sleep(.1)  # buffer to stop buttons from being pressed too quickly
 
 
 # Define function for exit button command
@@ -296,7 +308,7 @@ def write_data_bkgd():
 
             file1.write(rowString)  # write row of data to file
 
-            sleep(1)  # sleep 1 second
+            time.sleep(1)  # time.sleep 1 second
             file1.flush()  # flush internal buffer
 
             # Change indicator boxes on GUI
