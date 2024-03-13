@@ -2,7 +2,7 @@
 Code to control a solenoid valve 
 ## Overview
 This script is used to control one solenoid valve for the purpose of injecting 
-CO~2~ into the C200 testing space in a remote fashion
+CO<sub>2</sub> into the C200 testing space in a remote fashion
 
 ## Usage
 0. Prior to running the script: 
@@ -23,14 +23,14 @@ CO~2~ into the C200 testing space in a remote fashion
             - Download LabJackPython-2.1.0.zip. Unzip and put u12.py in folder with working .py file
 
 1. Run the script, a GUI will be created On the left is the valve status and on 
-the right are the valve control buttons, click the "Open CO~2~" button 
+the right are the valve control buttons, click the "Open CO<sub>2</sub>" button 
 to open the solenoid valve, this will automatically update the log in the middle
-2. Wait 20 - 30 seconds to ensure that sufficient CO~2~ is injected into
+2. Wait 20 - 30 seconds to ensure that sufficient CO<sub>2</sub> is injected into
 the experimental space
-3. Click the "Close CO~2~" button on the right hand side of the log, 
+3. Click the "Close CO<sub>2</sub>" button on the right hand side of the log, 
 the log will automatically update to show the status of the solenoid valve
 4. Leave the script running so an accurate log of the valve status is obtained
-throughout the duration of the CO~2~ decay.
+throughout the duration of the CO<sub>2</sub> decay.
 
 ## Authors
 - Written by KJM
