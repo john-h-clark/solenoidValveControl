@@ -86,25 +86,22 @@ def btn1_click():
     global AO0_volts
     # declare global variable so value carries over with button callback
     global AO1_volts
-    # set the variable which determined when the valve will be closed
-    tEnd = time.time() + 20
-    while time.time() < tEnd:
-        # Change AO0 Voltage
-        AO0_volts = 5.00
-        mutex.acquire()
-        # set output voltage on LabJack - open filter valve
-        d.eAnalogOut(AO0_volts, AO1_volts)
-        mutex.release()
+    # Change AO0 Voltage
+    AO0_volts = 5.00
+    mutex.acquire()
+    # set output voltage on LabJack - open filter valve
+    d.eAnalogOut(AO0_volts, AO1_volts)
+    mutex.release()
 
-        # Change AO1 Voltage
-        AO1_volts = 0.0
-        time.sleep(1)  # waiting period when both valves are open
-        mutex.acquire()
-        # set output voltage on LabJack - close sample valve
-        d.eAnalogOut(AO0_volts, AO1_volts)
-        mutex.release()
-        # time.sleep
-        time.sleep(.1)  # buffer to stop buttons from being pressed too quickly
+    # Change AO1 Voltage
+    AO1_volts = 0.0
+    time.sleep(1)  # waiting period when both valves are open
+    mutex.acquire()
+    # set output voltage on LabJack - close sample valve
+    d.eAnalogOut(AO0_volts, AO1_volts)
+    mutex.release()
+    # time.sleep
+    time.sleep(.1)  # buffer to stop buttons from being pressed too quickly
 
 
 # Define function for button 2 command (sets valves to sample)

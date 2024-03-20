@@ -1,0 +1,3 @@
+Valve Position and Trigger Data
+Assured Automation V4 Electric Ball Valves
+DateTime, Valve 1 Output, Valve 2 Output, Valve 1 Position,Valve 2 Position, Vaisala_CH1V, Vaisala_CH2V, Temp, RH n
