@@ -23,67 +23,60 @@ injectTimes = {
     'time6': '16:00',
     'time7': '20:00'
     }
-AO0Voltage = 0.00
-AO1Voltage = 0.00
+AO0_volts = 0.00
+AO1_volts = 0.00
 mutex = Lock()
 # Initialize LabJack U12 (note: will not work with the U6)
 d = u12.U12()
 
 # DEFINE FUNCTIONS ************************************************************
 # def switchOn():
-#     AO0Voltage = 5.00
-#     AO1Voltage = 0.00
-#     print(f'ON:\nAO0 Voltage = {AO0Voltage}\nAO1 Voltage = {AO1Voltage}')
+#     AO0_volts = 5.00
+#     AO1_volts = 0.00
+#     print(f'ON:\nAO0 Voltage = {AO0_volts}\nAO1 Voltage = {AO1_volts}')
 #     time.sleep(5)
 #     switchOff()
 
 
 # def switchOff():
-#     AO0Voltage = 0.00
-#     AO1Voltage = 0.00
-#     print(f'OFF:\nAO0 Voltage = {AO0Voltage}\nAO1 Voltage = {AO1Voltage}')
+#     AO0_volts = 0.00
+#     AO1_volts = 0.00
+#     print(f'OFF:\nAO0 Voltage = {AO0_volts}\nAO1 Voltage = {AO1_volts}')
 
 
 def timedInjection():
     # define end time to be 30 seconds from current time
-    tEnd = time.time() + 30
+    tEnd = time.time() + 20
     while time.time() < tEnd:
         # Change AO0 Voltage
-        AO0Voltage = 5.00
-        AO1Voltage = 0.00
+        AO0_volts = 5.00
+        AO1_volts = 0.00
         mutex.acquire()
         # set output voltage on LabJack - open filter valve
-        d.eAnalogOut(AO0Voltage, AO1Voltage)
+        d.eAnalogOut(AO0_volts, AO1_volts)
         mutex.release()
-
         # Change AO1 Voltage
-        AO1Voltage = 0.0
+        AO1_volts = 0.0
         time.sleep(1)  # waiting period when both valves are open
         mutex.acquire()
         # set output voltage on LabJack - close sample valve
-        d.eAnalogOut(AO0Voltage, AO1Voltage)
+        d.eAnalogOut(AO0_volts, AO1_volts)
         mutex.release()
+        # time.sleep
+        time.sleep(.1)  # buffer to stop buttons from being pressed too quickly
         # Change AO0 Voltage
-        AO0Voltage = 0.0
+        AO0_volts = 0.0
         mutex.acquire()
         # set output voltage on LabJack - close filter valve
-        d.eAnalogOut(AO0Voltage, AO1Voltage)
+        d.eAnalogOut(AO0_volts, AO1_volts)
         mutex.release()
 
 
 # ----------------------------------------------------------------------------#
-# set up scheduler
-s = sched.scheduler(time.localtime, time.sleep)
-# schedule when an action should occur
-s.enterabs(time.strptime('00:00:00'), 0, timedInjection())
-s.enterabs(time.strptime('04:00:00'), 0, timedInjection())
-s.enterabs(time.strptime('08:00:00'), 0, timedInjection())
-s.enterabs(time.strptime('12:00:00'), 0, timedInjection())
-s.enterabs(time.strptime('16:00:00'), 0, timedInjection())
-s.enterabs(time.strptime('20:00:00'), 0, timedInjection())
-# block until the action has been run
-s.Run()
-
+# event loop
+while True:
+    timedInjection()
+    time.sleep(14400)
 # Write Data to File
 
 # Initialize Save File
@@ -166,8 +159,8 @@ def write_data_bkgd():
             # RH = AI5*100
 # *****************************************************************************
             # Get analog output data
-            AO0 = AO0Voltage
-            AO1 = AO1Voltage
+            AO0 = AO0_volts
+            AO1 = AO1_volts
 
             # Create string of data
             rowData = [current_date, current_time, str(AO0), str(AO1),
